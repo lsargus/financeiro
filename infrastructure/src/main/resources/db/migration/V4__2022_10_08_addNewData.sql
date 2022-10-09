@@ -1,0 +1,2 @@
+INSERT INTO Receita VALUES (6, 'Teste 06', 132.10, DATE());
+INSERT INTO Receita VALUES (7, 'Teste 07', 199.10, DATE());
