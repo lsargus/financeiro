@@ -1,5 +1,0 @@
-INSERT INTO Receita VALUES (1, 'Teste 01', 130.10, DATE());
-INSERT INTO Receita VALUES (2, 'Teste 02', 230.10, DATE());
-INSERT INTO Receita VALUES (3, 'Teste 03', 360.10, DATE());
-INSERT INTO Receita VALUES (4, 'Teste 04', 450.10, DATE());
-INSERT INTO Receita VALUES (5, 'Teste 05', 501.10, DATE());
