@@ -1,4 +1,4 @@
-package br.com.lsargus.financeiro.bean_config;
+package br.com.lsargus.financeiro.bean_inject;
 
 import br.com.lsargus.financeiro.adapters.ReceitaJpaAdapter;
 import br.com.lsargus.financeiro.ports.api.ReceitaServicePort;
