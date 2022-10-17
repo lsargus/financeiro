@@ -2,6 +2,7 @@ package br.com.lsargus.financeiro.bean_inject;
 
 import br.com.lsargus.financeiro.adapters.ExpenseJpaAdapter;
 import br.com.lsargus.financeiro.ports.api.ExpenseServicePort;
+import br.com.lsargus.financeiro.ports.spi.ExpenseCategoryPersistencePort;
 import br.com.lsargus.financeiro.ports.spi.ExpensePersistencePort;
 import br.com.lsargus.financeiro.repository.ExpenseRepository;
 import br.com.lsargus.financeiro.services.ExpenseServiceImp;
@@ -13,8 +14,11 @@ public class ExpenseConfig {
 
     private final ExpenseRepository expenseRepository;
 
-    public ExpenseConfig(ExpenseRepository expenseRepository) {
+    private final ExpenseCategoryPersistencePort expenseCategoryPersistence;
+
+    public ExpenseConfig(ExpenseRepository expenseRepository, ExpenseCategoryPersistencePort expenseCategoryPersistence) {
         this.expenseRepository = expenseRepository;
+        this.expenseCategoryPersistence = expenseCategoryPersistence;
     }
 
     @Bean
@@ -24,6 +28,6 @@ public class ExpenseConfig {
 
     @Bean
     public ExpenseServicePort expenseService() {
-        return new ExpenseServiceImp(expensePersistence());
+        return new ExpenseServiceImp(expensePersistence(), expenseCategoryPersistence);
     }
 }

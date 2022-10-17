@@ -1,10 +1,8 @@
 package br.com.lsargus.financeiro.controller;
 
 import br.com.lsargus.financeiro.data.ExpenseDto;
-import br.com.lsargus.financeiro.data.IncomeDto;
 import br.com.lsargus.financeiro.exceptions.RuleException;
 import br.com.lsargus.financeiro.ports.api.ExpenseServicePort;
-import br.com.lsargus.financeiro.ports.api.IncomeServicePort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,12 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("despesa")
 public class ExpenseController {
 
-    private ExpenseServicePort expenseService;
+    private final ExpenseServicePort expenseService;
 
     public ExpenseController(ExpenseServicePort expenseService) {
         this.expenseService = expenseService;
@@ -45,6 +44,8 @@ public class ExpenseController {
             return ResponseEntity.ok(expenseService.addExpense(expenseDto));
         } catch (RuleException ex) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
+        } catch (NoSuchElementException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Erro ao categorizar despesa");
         }
     }
 
@@ -54,6 +55,8 @@ public class ExpenseController {
             return ResponseEntity.ok(expenseService.updateExpense(id, expenseDto));
         } catch (RuleException ex) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
+        } catch (NoSuchElementException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Erro ao categorizar despesa");
         }
     }
 

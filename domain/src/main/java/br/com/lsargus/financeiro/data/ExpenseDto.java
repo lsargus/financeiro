@@ -19,6 +19,7 @@ public class ExpenseDto {
 	@NotEmpty
 	@Size(min = 1, max = 255, message = "Descrição deve ser informada")
 	private String description;
+	private ExpenseCategoryDto category;
 	@NotNull
 	private BigDecimal value;
 	@NotNull

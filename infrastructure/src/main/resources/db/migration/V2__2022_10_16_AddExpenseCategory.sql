@@ -1,0 +1,30 @@
+CREATE TABLE FI003 (
+	FI003_id INTEGER,
+	FI003_ds_categoria varchar(255),
+	PRIMARY KEY("FI003_id" AUTOINCREMENT));
+
+INSERT INTO FI003 VALUES (1, 'Alimentação');
+INSERT INTO FI003 VALUES (2, 'Saúde');
+INSERT INTO FI003 VALUES (3, 'Moradia');
+INSERT INTO FI003 VALUES (4, 'Transporte');
+INSERT INTO FI003 VALUES (5, 'Educação');
+INSERT INTO FI003 VALUES (6, 'Lazer');
+INSERT INTO FI003 VALUES (7, 'Imprevistos');
+INSERT INTO FI003 VALUES (8, 'Outras');
+
+
+DROP TABLE FI002;
+
+CREATE TABLE FI002 (
+    FI002_id INTEGER,
+    FI002_ds_despesa varchar (255),
+    FI002_vl_despesa NUMERIC (17, 2),
+    FI002_id_categoria INTEGER REFERENCES FI003 (FI003_id) NOT NULL,
+    FI002_nr_ano NUMERIC (4),
+    FI002_nr_mes NUMERIC (2),
+    FI002_dt_despesa datetime,
+    PRIMARY KEY("FI002_id" AUTOINCREMENT));
+
+INSERT INTO FI002 VALUES (1, 'Teste 01', 130.10, 1, 2022, 10, datetime());
+INSERT INTO FI002 VALUES (2, 'Teste 02', 230.10, 2, 2022, 10, datetime());
+INSERT INTO FI002 VALUES (3, 'Teste 03', 360.10, 5, 2022, 10, datetime());
