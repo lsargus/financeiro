@@ -16,20 +16,20 @@ import java.time.LocalDateTime;
 @Entity(name = "FI001")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Receita {
+public class Income {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "FI001_id")
 	private Long id;
 	@Column(name = "FI001_ds_receita")
-	private String descricao;
+	private String description;
 	@Column(name = "FI001_vl_receita")
-	private BigDecimal valor;
+	private BigDecimal value;
 	@Column(name = "FI001_nr_ano")
-	private Integer ano;
+	private Integer year;
 	@Column(name = "FI001_nr_mes")
-	private Integer mes;
+	private Integer month;
 	@Column(name = "FI001_dt_receita")
-	private LocalDateTime data;
+	private LocalDateTime date;
 }

@@ -12,20 +12,20 @@ import java.time.LocalDateTime;
 @Entity(name = "FI002")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Despesa {
+public class Expense {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FI002_id")
     private Long id;
-    @Column(name = "FI002_ds_receita")
-    private String descricao;
-    @Column(name = "FI002_vl_receita")
-    private BigDecimal valor;
+    @Column(name = "FI002_ds_despesa")
+    private String description;
+    @Column(name = "FI002_vl_despesa")
+    private BigDecimal value;
     @Column(name = "FI002_nr_ano")
-    private Integer ano;
+    private Integer year;
     @Column(name = "FI002_nr_mes")
-    private Integer mes;
+    private Integer month;
     @Column(name = "FI002_dt_despesa")
-    private LocalDateTime data;
+    private LocalDateTime date;
 }

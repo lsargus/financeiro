@@ -13,18 +13,18 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReceitaDto {
+public class ExpenseDto {
 	
 	private Long id;
 	@NotEmpty
 	@Size(min = 1, max = 255, message = "Descrição deve ser informada")
-	private String descricao;
+	private String description;
 	@NotNull
-	private BigDecimal valor;
+	private BigDecimal value;
 	@NotNull
-	private Integer ano;
+	private Integer year;
 	@NotNull
-	private Integer mes;
+	private Integer month;
 	@NotNull
-	private LocalDateTime data;
+	private LocalDateTime date;
 }
