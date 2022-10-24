@@ -1,6 +1,6 @@
 package br.com.lsargus.financeiro.adapters;
 
-import br.com.lsargus.financeiro.data.ExpenseCategoryDto;
+import br.com.lsargus.financeiro.data.ExpenseCategoryBO;
 import br.com.lsargus.financeiro.entity.ExpenseCategory;
 import br.com.lsargus.financeiro.ports.spi.ExpenseCategoryPersistencePort;
 import br.com.lsargus.financeiro.repository.ExpenseCategoryRepository;
@@ -22,20 +22,20 @@ public class ExpenseCategoryAdapter implements ExpenseCategoryPersistencePort {
     }
 
     @Override
-    public List<ExpenseCategoryDto> getExpenseCategory() {
+    public List<ExpenseCategoryBO> getExpenseCategory() {
         List<ExpenseCategory> expenseCategoryList = expenseCategoryRepository.findAll();
-        return expenseCategoryList.stream().map(e -> modelMapper.map(e, ExpenseCategoryDto.class)).toList();
+        return expenseCategoryList.stream().map(e -> modelMapper.map(e, ExpenseCategoryBO.class)).toList();
     }
 
     @Override
-    public ExpenseCategoryDto saveExpenseCategory(ExpenseCategoryDto expenseCategoryDto) {
-        ExpenseCategory expenseCategory = modelMapper.map(expenseCategoryDto, ExpenseCategory.class);
+    public ExpenseCategoryBO saveExpenseCategory(ExpenseCategoryBO expenseCategoryBO) {
+        ExpenseCategory expenseCategory = modelMapper.map(expenseCategoryBO, ExpenseCategory.class);
         expenseCategory = expenseCategoryRepository.save(expenseCategory);
-        return modelMapper.map(expenseCategory, ExpenseCategoryDto.class);
+        return modelMapper.map(expenseCategory, ExpenseCategoryBO.class);
     }
 
     @Override
-    public ExpenseCategoryDto findOthers() throws NoSuchElementException {
-        return modelMapper.map(expenseCategoryRepository.findById(ID_OTHERS).orElseThrow(), ExpenseCategoryDto.class);
+    public ExpenseCategoryBO findOthers() throws NoSuchElementException {
+        return modelMapper.map(expenseCategoryRepository.findById(ID_OTHERS).orElseThrow(), ExpenseCategoryBO.class);
     }
 }

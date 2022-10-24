@@ -1,18 +1,18 @@
 package br.com.lsargus.financeiro.ports.spi;
 
-import br.com.lsargus.financeiro.data.ExpenseDto;
+import br.com.lsargus.financeiro.data.ExpenseBO;
 
 import java.util.List;
 
 public interface ExpensePersistencePort {
 
-    List<ExpenseDto> getExpense();
+    List<ExpenseBO> getExpense();
 
-    ExpenseDto getExpense(Long id);
+    ExpenseBO getExpense(Long id);
 
-    ExpenseDto saveExpense(ExpenseDto expenseDto);
+    ExpenseBO saveExpense(ExpenseBO expenseBO);
 
-    List<ExpenseDto> getExpenseByYearAndMonthAndDescription(Integer year, Integer month, String description);
+    List<ExpenseBO> getExpenseByYearAndMonthAndDescription(Integer year, Integer month, String description);
 
     void deleteExpense(Long id);
 }

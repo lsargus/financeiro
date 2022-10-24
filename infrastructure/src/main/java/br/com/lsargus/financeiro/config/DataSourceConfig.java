@@ -14,7 +14,7 @@ import java.util.Map;
 @Configuration
 public class DataSourceConfig {
 
-    private static final boolean SHOW_SQL = false;
+    private static final boolean SHOW_SQL = true;
 
     @Bean
     @Primary
@@ -38,6 +38,7 @@ public class DataSourceConfig {
                 "org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy");
         properties.put("hibernate.dialect", "br.com.lsargus.financeiro.config.SQLDialect");
         properties.put("hibernate.show_sql", String.valueOf(SHOW_SQL));
+        properties.put("hibernate.format_sql", String.valueOf(SHOW_SQL));
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(getDataSource());
         factoryBean.setPackagesToScan("br.com.lsargus.financeiro.entity");

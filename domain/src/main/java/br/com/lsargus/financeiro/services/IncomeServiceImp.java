@@ -1,6 +1,6 @@
 package br.com.lsargus.financeiro.services;
 
-import br.com.lsargus.financeiro.data.IncomeDto;
+import br.com.lsargus.financeiro.data.IncomeBO;
 import br.com.lsargus.financeiro.exceptions.RuleException;
 import br.com.lsargus.financeiro.ports.api.IncomeServicePort;
 import br.com.lsargus.financeiro.ports.spi.IncomePersistencePort;
@@ -18,31 +18,31 @@ public class IncomeServiceImp implements IncomeServicePort {
     }
 
     @Override
-    public List<IncomeDto> getAll() {
+    public List<IncomeBO> getAll() {
         return incomePersistence.getIncome();
     }
 
     @Override
-    public IncomeDto getIncome(Long id) {
+    public IncomeBO getIncome(Long id) {
         return incomePersistence.getIncome(id);
     }
 
     @Override
-    public IncomeDto addIncome(IncomeDto incomeDto) throws RuleException {
+    public IncomeBO addIncome(IncomeBO incomeBO) throws RuleException {
 
-		if (checkIncomeDuplication(incomeDto))
+		if (checkIncomeDuplication(incomeBO))
             throw new RuleException("Receita duplicada: já existe uma receitas com os dados cadastrada no mês.");
 
-        return incomePersistence.saveIncome(incomeDto);
+        return incomePersistence.saveIncome(incomeBO);
     }
 
     @Override
-    public IncomeDto updateIncome(Long id, IncomeDto incomeDto) throws RuleException {
+    public IncomeBO updateIncome(Long id, IncomeBO incomeBO) throws RuleException {
 
-        if (checkIncomeDuplication(incomeDto))
+        if (checkIncomeDuplication(incomeBO))
             throw new RuleException("Receita duplicada: já existe uma receitas com os dados cadastrada no mês.");
 
-        IncomeDto newIncome = incomeDto;
+        IncomeBO newIncome = incomeBO;
         newIncome.setId(id);
 
         return incomePersistence.saveIncome(newIncome);
@@ -55,11 +55,11 @@ public class IncomeServiceImp implements IncomeServicePort {
 
 	/**
 	 * Verifica se existe uma receita cadastrata no mesmo ano/mes com a mesma descrição
-	 * @param incomeDto
+	 * @param incomeBO
 	 * @return true se existir uma receita cadastrata, false caso contrário
 	 */
-    public boolean checkIncomeDuplication(IncomeDto incomeDto) {
-        return !incomePersistence.getIncomeByYearAndMonthAndDescription(incomeDto.getYear(), incomeDto.getMonth(), incomeDto.getDescription()).isEmpty();
+    public boolean checkIncomeDuplication(IncomeBO incomeBO) {
+        return !incomePersistence.getIncomeByYearAndMonthAndDescription(incomeBO.getYear(), incomeBO.getMonth(), incomeBO.getDescription()).isEmpty();
     }
 
 }

@@ -1,6 +1,6 @@
 package br.com.lsargus.financeiro.services;
 
-import br.com.lsargus.financeiro.data.ExpenseCategoryDto;
+import br.com.lsargus.financeiro.data.ExpenseCategoryBO;
 import br.com.lsargus.financeiro.ports.api.ExpenseCategoryServicePort;
 import br.com.lsargus.financeiro.ports.spi.ExpenseCategoryPersistencePort;
 import org.springframework.stereotype.Service;
@@ -17,12 +17,12 @@ public class ExpenseCategoryServiceImp implements ExpenseCategoryServicePort {
     }
 
     @Override
-    public List<ExpenseCategoryDto> getAll() {
+    public List<ExpenseCategoryBO> getAll() {
         return expenseCategoryPersistence.getExpenseCategory();
     }
 
     @Override
-    public ExpenseCategoryDto addCategory(ExpenseCategoryDto categoryDto) {
+    public ExpenseCategoryBO addCategory(ExpenseCategoryBO categoryDto) {
         return expenseCategoryPersistence.saveExpenseCategory(categoryDto);
     }
 }

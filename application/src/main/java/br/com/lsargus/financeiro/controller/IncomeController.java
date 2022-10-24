@@ -1,6 +1,6 @@
 package br.com.lsargus.financeiro.controller;
 
-import br.com.lsargus.financeiro.data.IncomeDto;
+import br.com.lsargus.financeiro.data.IncomeBO;
 import br.com.lsargus.financeiro.exceptions.RuleException;
 import br.com.lsargus.financeiro.ports.api.IncomeServicePort;
 import org.springframework.http.HttpStatus;
@@ -21,28 +21,28 @@ public class IncomeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<IncomeDto>> listAll() {
+    public ResponseEntity<List<IncomeBO>> listAll() {
         return ResponseEntity.ok(incomeService.getAll());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<IncomeDto> getIncome(@PathVariable Long id) {
+    public ResponseEntity<IncomeBO> getIncome(@PathVariable Long id) {
         return ResponseEntity.ok(incomeService.getIncome(id));
     }
 
     @PostMapping
-    public ResponseEntity<Object> addIncome(@Valid @RequestBody IncomeDto incomeDto) {
+    public ResponseEntity<Object> addIncome(@Valid @RequestBody IncomeBO incomeBO) {
         try {
-            return ResponseEntity.ok(incomeService.addIncome(incomeDto));
+            return ResponseEntity.ok(incomeService.addIncome(incomeBO));
         } catch (RuleException ex) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
         }
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> updateIncome(@PathVariable Long id, @Valid @RequestBody IncomeDto incomeDto) {
+    public ResponseEntity<Object> updateIncome(@PathVariable Long id, @Valid @RequestBody IncomeBO incomeBO) {
         try {
-            return ResponseEntity.ok(incomeService.updateIncome(id, incomeDto));
+            return ResponseEntity.ok(incomeService.updateIncome(id, incomeBO));
         } catch (RuleException ex) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
         }

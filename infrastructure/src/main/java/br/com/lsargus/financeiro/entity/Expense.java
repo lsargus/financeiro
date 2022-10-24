@@ -22,7 +22,7 @@ public class Expense {
     private String description;
     @Column(name = "FI002_vl_despesa")
     private BigDecimal value;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="FI002_id_categoria", nullable=false)
     private ExpenseCategory category;
     @Column(name = "FI002_nr_ano")

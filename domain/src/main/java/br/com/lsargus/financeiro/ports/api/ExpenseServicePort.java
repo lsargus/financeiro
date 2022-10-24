@@ -1,19 +1,19 @@
 package br.com.lsargus.financeiro.ports.api;
 
-import br.com.lsargus.financeiro.data.ExpenseDto;
+import br.com.lsargus.financeiro.data.ExpenseBO;
 import br.com.lsargus.financeiro.exceptions.RuleException;
 
 import java.util.List;
 
 public interface ExpenseServicePort {
 	
-	List<ExpenseDto> getAll();
+	List<ExpenseBO> getAll();
 
-	ExpenseDto getExpense(Long id);
+	ExpenseBO getExpense(Long id);
 
-	ExpenseDto addExpense(ExpenseDto incomeDto) throws RuleException;
+	ExpenseBO addExpense(ExpenseBO expenseBO) throws RuleException;
 
-	ExpenseDto updateExpense(Long id, ExpenseDto expenseDto) throws RuleException;
+	ExpenseBO updateExpense(Long id, ExpenseBO expenseBO) throws RuleException;
 
 	void deleteExpense(Long id);
 }

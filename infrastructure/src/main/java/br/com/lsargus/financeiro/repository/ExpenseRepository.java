@@ -1,7 +1,6 @@
 package br.com.lsargus.financeiro.repository;
 
 import br.com.lsargus.financeiro.entity.Expense;
-import br.com.lsargus.financeiro.entity.Income;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

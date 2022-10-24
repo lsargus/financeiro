@@ -1,6 +1,6 @@
 package br.com.lsargus.financeiro.adapters;
 
-import br.com.lsargus.financeiro.data.IncomeDto;
+import br.com.lsargus.financeiro.data.IncomeBO;
 import br.com.lsargus.financeiro.entity.Income;
 import br.com.lsargus.financeiro.ports.spi.IncomePersistencePort;
 import br.com.lsargus.financeiro.repository.IncomeRepository;
@@ -20,35 +20,35 @@ public class IncomeJpaAdapter implements IncomePersistencePort {
     }
 
     @Override
-    public List<IncomeDto> getIncome() {
+    public List<IncomeBO> getIncome() {
         List<Income> incomeList = incomeRepository.findAll();
 
-        return incomeList.stream().map(r -> modelMapper.map(r, IncomeDto.class)).toList();
+        return incomeList.stream().map(r -> modelMapper.map(r, IncomeBO.class)).toList();
     }
 
     @Override
-    public IncomeDto getIncome(Long id) {
-        return  modelMapper.map(incomeRepository.findById(id), IncomeDto.class);
+    public IncomeBO getIncome(Long id) {
+        return  modelMapper.map(incomeRepository.findById(id), IncomeBO.class);
     }
 
     @Override
-    public IncomeDto saveIncome(IncomeDto incomeDto) {
-        Income income = modelMapper.map(incomeDto, Income.class);
+    public IncomeBO saveIncome(IncomeBO incomeBO) {
+        Income income = modelMapper.map(incomeBO, Income.class);
         income = incomeRepository.save(income);
 
-        return modelMapper.map(income, IncomeDto.class);
+        return modelMapper.map(income, IncomeBO.class);
     }
 
     @Override
-    public List<IncomeDto> getIncomeByYearAndMonthAndDescription(Integer year, Integer month, String description) {
-        List<IncomeDto> incomeDtoList = new ArrayList<>();
+    public List<IncomeBO> getIncomeByYearAndMonthAndDescription(Integer year, Integer month, String description) {
+        List<IncomeBO> incomeBOList = new ArrayList<>();
 
         List<Income> incomeList = incomeRepository.findIncomeByYearAndMonthAndDescription(year, month, description);
 
         if (incomeList != null && !incomeList.isEmpty())
-            incomeDtoList = incomeList.stream().map(r -> modelMapper.map(r, IncomeDto.class)).toList();
+            incomeBOList = incomeList.stream().map(r -> modelMapper.map(r, IncomeBO.class)).toList();
 
-        return incomeDtoList;
+        return incomeBOList;
     }
 
     @Override

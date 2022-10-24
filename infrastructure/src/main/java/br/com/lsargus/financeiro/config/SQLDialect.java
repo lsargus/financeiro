@@ -9,11 +9,17 @@ import org.hibernate.type.StringType;
 import java.sql.Types;
 
 public class SQLDialect extends Dialect {
+
+    public static final String CREATE_TEMPORARY_TABLE_IF_NOT_EXISTS = "create temporary table if not exists";
+    public static final String SELECT_LAST_INSERT_ROWID = "select last_insert_rowid()";
+    public static final String INTEGER = "integer";
+    public static final String SUBSTR = "substr";
+
     public SQLDialect() {
-        registerColumnType(Types.BIT, "integer");
+        registerColumnType(Types.BIT, INTEGER);
         registerColumnType(Types.TINYINT, "tinyint");
         registerColumnType(Types.SMALLINT, "smallint");
-        registerColumnType(Types.INTEGER, "integer");
+        registerColumnType(Types.INTEGER, INTEGER);
         registerColumnType(Types.BIGINT, "bigint");
         registerColumnType(Types.FLOAT, "float");
         registerColumnType(Types.REAL, "real");
@@ -29,15 +35,14 @@ public class SQLDialect extends Dialect {
         registerColumnType(Types.BINARY, "blob");
         registerColumnType(Types.VARBINARY, "blob");
         registerColumnType(Types.LONGVARBINARY, "blob");
-        // registerColumnType(Types.NULL, "null");
         registerColumnType(Types.BLOB, "blob");
         registerColumnType(Types.CLOB, "clob");
-        registerColumnType(Types.BOOLEAN, "integer");
+        registerColumnType(Types.BOOLEAN, INTEGER);
 
         registerFunction("concat", new VarArgsSQLFunction(StringType.INSTANCE, "", "||", ""));
         registerFunction("mod", new SQLFunctionTemplate(StringType.INSTANCE, "?1 % ?2"));
-        registerFunction("substr", new StandardSQLFunction("substr", StringType.INSTANCE));
-        registerFunction("substring", new StandardSQLFunction("substr", StringType.INSTANCE));
+        registerFunction(SUBSTR, new StandardSQLFunction(SUBSTR, StringType.INSTANCE));
+        registerFunction("substring", new StandardSQLFunction(SUBSTR, StringType.INSTANCE));
     }
 
     public boolean supportsIdentityColumns() {
@@ -49,18 +54,21 @@ public class SQLDialect extends Dialect {
     }
 
     public String getIdentityColumnString() {
-        // return "integer primary key autoincrement";
-        return "integer";
+        return INTEGER;
     }
 
     public String getIdentitySelectString() {
-        return "select last_insert_rowid()";
+        return SELECT_LAST_INSERT_ROWID;
     }
 
+    @Override
+    @Deprecated
     public boolean supportsLimit() {
         return true;
     }
 
+    @Override
+    @Deprecated
     protected String getLimitString(String query, boolean hasOffset) {
         return new StringBuffer(query.length() + 20).append(query).append(hasOffset ? " limit ? offset ?" : " limit ?")
                 .toString();
@@ -71,66 +79,80 @@ public class SQLDialect extends Dialect {
     }
 
     public String getCreateTemporaryTableString() {
-        return "create temporary table if not exists";
+        return CREATE_TEMPORARY_TABLE_IF_NOT_EXISTS;
     }
 
     public boolean dropTemporaryTableAfterUse() {
         return false;
     }
 
+    @Override
     public boolean supportsCurrentTimestampSelection() {
         return true;
     }
 
+    @Override
     public boolean isCurrentTimestampSelectStringCallable() {
         return false;
     }
 
+    @Override
     public String getCurrentTimestampSelectString() {
         return "select current_timestamp";
     }
 
+    @Override
     public boolean supportsUnionAll() {
         return true;
     }
 
+    @Override
     public boolean hasAlterTable() {
         return false; // As specify in NHibernate dialect
     }
 
+    @Override
     public boolean dropConstraints() {
         return false;
     }
 
+    @Override
     public String getAddColumnString() {
         return "add column";
     }
 
+    @Override
     public String getForUpdateString() {
         return "";
     }
 
+    @Override
     public boolean supportsOuterJoinForUpdate() {
         return false;
     }
 
+    @Override
     public String getDropForeignKeyString() {
         throw new UnsupportedOperationException("No drop foreign key syntax supported by SQLiteDialect");
     }
 
+    @Override
     public String getAddForeignKeyConstraintString(String constraintName, String[] foreignKey, String referencedTable,
                                                    String[] primaryKey, boolean referencesPrimaryKey) {
         throw new UnsupportedOperationException("No add foreign key syntax supported by SQLiteDialect");
     }
 
+    @Override
     public String getAddPrimaryKeyConstraintString(String constraintName) {
         throw new UnsupportedOperationException("No add primary key syntax supported by SQLiteDialect");
     }
 
+    @Override
     public boolean supportsIfExistsBeforeTableName() {
         return true;
     }
 
+    @Override
     public boolean supportsCascadeDelete() {
         return false;
     }

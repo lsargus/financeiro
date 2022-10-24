@@ -1,19 +1,19 @@
 package br.com.lsargus.financeiro.ports.api;
 
-import br.com.lsargus.financeiro.data.IncomeDto;
+import br.com.lsargus.financeiro.data.IncomeBO;
 import br.com.lsargus.financeiro.exceptions.RuleException;
 
 import java.util.List;
 
 public interface IncomeServicePort {
 	
-	List<IncomeDto> getAll();
+	List<IncomeBO> getAll();
 
-	IncomeDto getIncome(Long id);
+	IncomeBO getIncome(Long id);
 
-	IncomeDto addIncome(IncomeDto incomeDto) throws RuleException;
+	IncomeBO addIncome(IncomeBO incomeBO) throws RuleException;
 
-	IncomeDto updateIncome(Long id, IncomeDto incomeDto) throws RuleException;
+	IncomeBO updateIncome(Long id, IncomeBO incomeBO) throws RuleException;
 
 	void deleteIncome(Long id);
 }

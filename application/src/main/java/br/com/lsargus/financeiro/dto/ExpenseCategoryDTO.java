@@ -1,4 +1,4 @@
-package br.com.lsargus.financeiro.data;
+package br.com.lsargus.financeiro.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExpenseCategoryDto {
+public class ExpenseCategoryDTO {
 
     private Long id;
     @NotEmpty

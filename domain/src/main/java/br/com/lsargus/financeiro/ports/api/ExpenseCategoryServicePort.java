@@ -1,13 +1,13 @@
 package br.com.lsargus.financeiro.ports.api;
 
-import br.com.lsargus.financeiro.data.ExpenseCategoryDto;
+import br.com.lsargus.financeiro.data.ExpenseCategoryBO;
 
 import java.util.List;
 
 public interface ExpenseCategoryServicePort {
 
-    List<ExpenseCategoryDto> getAll();
+    List<ExpenseCategoryBO> getAll();
 
-    ExpenseCategoryDto addCategory(ExpenseCategoryDto categoryDto);
+    ExpenseCategoryBO addCategory(ExpenseCategoryBO categoryDto);
 
 }

@@ -1,18 +1,18 @@
 package br.com.lsargus.financeiro.ports.spi;
 
-import br.com.lsargus.financeiro.data.IncomeDto;
+import br.com.lsargus.financeiro.data.IncomeBO;
 
 import java.util.List;
 
 public interface IncomePersistencePort {
 
-    List<IncomeDto> getIncome();
+    List<IncomeBO> getIncome();
 
-    IncomeDto getIncome(Long id);
+    IncomeBO getIncome(Long id);
 
-    IncomeDto saveIncome(IncomeDto incomeDto);
+    IncomeBO saveIncome(IncomeBO incomeBO);
 
-    List<IncomeDto> getIncomeByYearAndMonthAndDescription(Integer year, Integer month, String description);
+    List<IncomeBO> getIncomeByYearAndMonthAndDescription(Integer year, Integer month, String description);
 
     void deleteIncome(Long id);
 }

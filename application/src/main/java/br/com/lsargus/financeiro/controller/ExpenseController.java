@@ -1,8 +1,11 @@
 package br.com.lsargus.financeiro.controller;
 
-import br.com.lsargus.financeiro.data.ExpenseDto;
+import br.com.lsargus.financeiro.data.ExpenseBO;
+import br.com.lsargus.financeiro.dto.ExpenseDTO;
 import br.com.lsargus.financeiro.exceptions.RuleException;
+import br.com.lsargus.financeiro.mapper.ExpenseMapper;
 import br.com.lsargus.financeiro.ports.api.ExpenseServicePort;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,24 +27,30 @@ public class ExpenseController {
 
     private final ExpenseServicePort expenseService;
 
+    private ModelMapper modelMapper = new ExpenseMapper();
+
     public ExpenseController(ExpenseServicePort expenseService) {
         this.expenseService = expenseService;
     }
 
     @GetMapping
-    public ResponseEntity<List<ExpenseDto>> listAll() {
-        return ResponseEntity.ok(expenseService.getAll());
+    public ResponseEntity<List<ExpenseDTO>> listAll() {
+        List<ExpenseDTO> expenseDTOList = expenseService.getAll().stream().map(e -> modelMapper.map(e,ExpenseDTO.class)).toList();
+        return ResponseEntity.ok(expenseDTOList);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ExpenseDto> getExpense(@PathVariable Long id) {
-        return ResponseEntity.ok(expenseService.getExpense(id));
+    public ResponseEntity<ExpenseDTO> getExpense(@PathVariable Long id) {
+        ExpenseDTO expenseDTO = modelMapper.map(expenseService.getExpense(id), ExpenseDTO.class);
+        return ResponseEntity.ok(expenseDTO);
     }
 
     @PostMapping
-    public ResponseEntity<Object> addExpense(@Valid @RequestBody ExpenseDto expenseDto) {
+
+    public ResponseEntity<Object> addExpense(@Valid @RequestBody ExpenseDTO expenseDTO) {
+        ExpenseBO expenseBO = modelMapper.map(expenseDTO, ExpenseBO.class);
         try {
-            return ResponseEntity.ok(expenseService.addExpense(expenseDto));
+            return ResponseEntity.ok(modelMapper.map(expenseService.addExpense(expenseBO), ExpenseDTO.class));
         } catch (RuleException ex) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
         } catch (NoSuchElementException ex) {
@@ -50,9 +59,10 @@ public class ExpenseController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> updateExpense(@PathVariable Long id, @Valid @RequestBody ExpenseDto expenseDto) {
+    public ResponseEntity<Object> updateExpense(@PathVariable Long id, @Valid @RequestBody ExpenseDTO expenseDTO) {
+        ExpenseBO expenseBO = modelMapper.map(expenseDTO, ExpenseBO.class);
         try {
-            return ResponseEntity.ok(expenseService.updateExpense(id, expenseDto));
+            return ResponseEntity.ok(modelMapper.map(expenseService.updateExpense(id, expenseBO), ExpenseDTO.class));
         } catch (RuleException ex) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
         } catch (NoSuchElementException ex) {

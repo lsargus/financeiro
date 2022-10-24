@@ -1,7 +1,9 @@
 package br.com.lsargus.financeiro.controller;
 
-import br.com.lsargus.financeiro.data.ExpenseCategoryDto;
+import br.com.lsargus.financeiro.data.ExpenseCategoryBO;
+import br.com.lsargus.financeiro.dto.ExpenseCategoryDTO;
 import br.com.lsargus.financeiro.ports.api.ExpenseCategoryServicePort;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,17 +20,22 @@ public class ExpenseCategoryController {
 
     private final ExpenseCategoryServicePort expenseCategoryService;
 
+    private ModelMapper modelMapper = new ModelMapper();
+
     public ExpenseCategoryController(ExpenseCategoryServicePort expenseCategoryService) {
         this.expenseCategoryService = expenseCategoryService;
     }
 
     @GetMapping
-    public ResponseEntity<List<ExpenseCategoryDto>> listAll() {
-        return ResponseEntity.ok(expenseCategoryService.getAll());
+    public ResponseEntity<List<ExpenseCategoryDTO>> listAll() {
+        List<ExpenseCategoryDTO> expenseCategoryDTOList = expenseCategoryService.getAll().stream().map(e -> modelMapper.map(e,ExpenseCategoryDTO.class)).toList();
+        return ResponseEntity.ok(expenseCategoryDTOList);
     }
 
     @PostMapping
-    public ResponseEntity<Object> addExpenseCategory(@Valid @RequestBody ExpenseCategoryDto expenseCategoryDto) {
-        return  ResponseEntity.ok(expenseCategoryService.addCategory(expenseCategoryDto));
+    public ResponseEntity<Object> addExpenseCategory(@Valid @RequestBody ExpenseCategoryDTO expenseCategoryDTO) {
+        ExpenseCategoryBO expenseCategoryBO = modelMapper.map(expenseCategoryDTO, ExpenseCategoryBO.class);
+        ExpenseCategoryDTO newExpenseCategoryDTO = modelMapper.map(expenseCategoryService.addCategory(expenseCategoryBO), ExpenseCategoryDTO.class);
+        return  ResponseEntity.ok(newExpenseCategoryDTO);
     }
 }

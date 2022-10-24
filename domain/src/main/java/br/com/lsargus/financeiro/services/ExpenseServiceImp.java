@@ -1,7 +1,7 @@
 package br.com.lsargus.financeiro.services;
 
-import br.com.lsargus.financeiro.data.ExpenseCategoryDto;
-import br.com.lsargus.financeiro.data.ExpenseDto;
+import br.com.lsargus.financeiro.data.ExpenseBO;
+import br.com.lsargus.financeiro.data.ExpenseCategoryBO;
 import br.com.lsargus.financeiro.exceptions.RuleException;
 import br.com.lsargus.financeiro.ports.api.ExpenseServicePort;
 import br.com.lsargus.financeiro.ports.spi.ExpenseCategoryPersistencePort;
@@ -25,19 +25,19 @@ public class ExpenseServiceImp implements ExpenseServicePort {
     }
 
     @Override
-    public List<ExpenseDto> getAll() {
+    public List<ExpenseBO> getAll() {
         return expensePersistence.getExpense();
     }
 
     @Override
-    public ExpenseDto getExpense(Long id) {
+    public ExpenseBO getExpense(Long id) {
         return expensePersistence.getExpense(id);
     }
 
     @Override
-    public ExpenseDto addExpense(ExpenseDto expenseDto) throws RuleException, NoSuchElementException {
+    public ExpenseBO addExpense(ExpenseBO expenseBO) throws RuleException, NoSuchElementException {
 
-        ExpenseDto expense = checkExpenseCategory(expenseDto);
+        ExpenseBO expense = checkExpenseCategory(expenseBO);
 
 		if (checkExpenseDuplication(expense))
             throw new RuleException("Receita duplicada: já existe uma receitas com os dados cadastrada no mês.");
@@ -46,9 +46,9 @@ public class ExpenseServiceImp implements ExpenseServicePort {
     }
 
     @Override
-    public ExpenseDto updateExpense(Long id, ExpenseDto expenseDto) throws RuleException, NoSuchElementException {
+    public ExpenseBO updateExpense(Long id, ExpenseBO expenseBO) throws RuleException, NoSuchElementException {
 
-        ExpenseDto expense = checkExpenseCategory(expenseDto);
+        ExpenseBO expense = checkExpenseCategory(expenseBO);
 
         if (checkExpenseDuplication(expense))
             throw new RuleException("Receita duplicada: já existe uma receitas com os dados cadastrada no mês.");
@@ -65,22 +65,22 @@ public class ExpenseServiceImp implements ExpenseServicePort {
 
 	/**
 	 * Verifica se existe uma despesa cadastrata no mesmo ano/mes com a mesma descrição
-	 * @param expenseDto despesa a ser verificada
+	 * @param expenseBO despesa a ser verificada
 	 * @return true se existir uma receita cadastrata, false caso contrário
 	 */
-    public boolean checkExpenseDuplication(ExpenseDto expenseDto) {
-        return !expensePersistence.getExpenseByYearAndMonthAndDescription(expenseDto.getYear(), expenseDto.getMonth(), expenseDto.getDescription()).isEmpty();
+    public boolean checkExpenseDuplication(ExpenseBO expenseBO) {
+        return !expensePersistence.getExpenseByYearAndMonthAndDescription(expenseBO.getYear(), expenseBO.getMonth(), expenseBO.getDescription()).isEmpty();
     }
 
     /**
      * Verifica se a ctegoria da despesa foi informada, se não adiciona a categoria 8 - Outros
-     * @param expenseDto dados da despesa
+     * @param expenseBO dados da despesa
      * @return expenseDto atualizado com a categoria da despesa se esta não foi fornecida
      */
-    public ExpenseDto checkExpenseCategory(ExpenseDto expenseDto) throws NoSuchElementException {
-        ExpenseCategoryDto category = Optional.ofNullable(expenseDto.getCategory()).orElse(expenseCategoryPersistence.findOthers());
-        expenseDto.setCategory(category);
-        return expenseDto;
+    public ExpenseBO checkExpenseCategory(ExpenseBO expenseBO) throws NoSuchElementException {
+        ExpenseCategoryBO category = Optional.ofNullable(expenseBO.getCategory()).orElse(expenseCategoryPersistence.findOthers());
+        expenseBO.setCategory(category);
+        return expenseBO;
     }
 
 }
